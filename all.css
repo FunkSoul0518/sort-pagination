@@ -1,0 +1,83 @@
+body {
+  background-color: #eeeeee;
+}
+ul,
+ol {
+  list-style: none;
+}
+img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+a:hover {
+  text-decoration: none;
+}
+/* 預設CSS */
+
+.font-sm {
+  font-size: 0.5rem;
+}
+.font-md {
+  font-size: 1rem;
+  font-weight: bolder;
+}
+
+.mainColor {
+  color: #03a9f4;
+}
+.priceColor {
+  color: #ff9800;
+}
+.active {
+  color: white;
+  background-color: gray;
+}
+
+/* 變數  */
+.sortGroup {
+  cursor: pointer;
+  transition: all 0.3s;
+  padding: 1rem 3rem;
+}
+.sortGroup:hover {
+  background-color: #eeeeee;
+  color: black;
+}
+.dropdown-menu {
+  text-align: center !important;
+  left: -50px !important;
+  top: 10px !important;
+  /* 蓋掉element.style 讓下拉BOX可以置中*/
+}
+
+.tourTitle {
+  color: black;
+}
+
+.tag {
+  width: 70px;
+  text-align: center;
+  border-radius: 5px;
+  color: white;
+}
+
+.feature_box {
+  border: 1px solid #03a9f4;
+  color: #03a9f4;
+  font-size: 0.5rem;
+  padding: 0.2rem;
+}
+
+.place {
+  padding: 2px;
+  border: 1px solid #03a9f4;
+  border-radius: 2px;
+}
+
+.discountBox:hover {
+  color: #ff9800;
+}
+.discountBox h3 span {
+  color: black;
+}

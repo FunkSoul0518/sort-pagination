@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+      crossorigin="anonymous"
+    />
+
+    <link rel="stylesheet" href="all.css" />
+  </head>
+
+  <body>
+    <div id="app">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-12 p-0">
+            <div class="d-flex sortBox bg-light align-items-center mb-5">
+              <span class="title font-weight-bold p-3">排序</span>
+              <ul class="d-flex m-0 p-0 justify-content-between">
+                <li
+                  class="sortGroup"
+                  :class="{ active : sortState == 'default'}"
+                  @click="sortState = 'default'"
+                >
+                  <div>精選評分</div>
+                </li>
+
+                <li
+                  class="sortGroup"
+                  :class="{ active : sortState == 'toBig' || sortState == 'toSmall' }"
+                >
+                  <div class="dropdown">
+                    <div
+                      class="dropdown-toggle"
+                      id="dropdownPrice"
+                      data-toggle="dropdown"
+                    >
+                      價格
+                    </div>
+                    <div class="dropdown-menu" aria-labelledby="dropdownPrice">
+                      <a
+                        class="dropdown-item"
+                        href="#"
+                        @click="sortState = 'toBig'"
+                        >價格: 低至高
+                      </a>
+                      <a
+                        class="dropdown-item"
+                        href="#"
+                        @click="sortState = 'toSmall'"
+                        >價格: 高至低</a
+                      >
+                    </div>
+                  </div>
+                </li>
+
+                <li class="sortGroup">
+                  <div
+                    class="dropdown-toggle"
+                    id="dropdownDays"
+                    data-toggle="dropdown"
+                  >
+                    天數
+                  </div>
+                  <div
+                    class="dropdown-menu list"
+                    aria-labelledby="dropdownDays"
+                  >
+                    <a class="dropdown-item" href="#">天數: 少至多</a>
+                    <a class="dropdown-item" href="#">天數: 多至少</a>
+                  </div>
+                </li>
+
+                <li class="sortGroup">
+                  <div>出發日期</div>
+                </li>
+              </ul>
+            </div>
+            <!-- 排序BOX  -->
+
+            <!-- 卡片 -->
+            <ul class="p-0">
+              <li
+                class="bg-light row mx-0 mb-4"
+                v-for="item of  filterPage"
+                :key="item.id"
+              >
+                <!-- m-0消除gutters -->
+                <div class="col-3 p-0">
+                  <a :href="item.tour_detail_url">
+                    <img :src="item.image_url" style="height: 265px" />
+                  </a>
+                </div>
+
+                <div class="col-9 p-3">
+                  <h6 class="mr-3 text-secondary font-sm mb-3">
+                    {{ item.agency }}
+                    <span
+                      ><i class="fas fa-star" v-for=" stars of item.rating"></i
+                    ></span>
+                  </h6>
+                  <a href="" class="tourTitle font-md"> {{ item.title }} </a>
+                  <div class="tag bg-secondary p-1 my-3 font-sm">
+                    <i class="fas fa-map-marker-alt mr-2"></i>台灣
+                  </div>
+                  <div class="p-0 feature d-flex">
+                    <span
+                      class="feature_box rounded-pill mr-2 font-sm"
+                      v-for="tag of item.tags"
+                      >{{ tag }}</span
+                    >
+                  </div>
+                  <hr class="text-secondary" />
+
+                  <div class="booking d-flex justify-content-between">
+                    <ul class="d-flex p-0 align-items-center">
+                      <li class="mr-2" v-for="book of item.group">
+                        <a
+                          :href="item.tour_detail_url"
+                          class="mainColor font-sm text-center"
+                        >
+                          <div class="">{{ book.date }}</div>
+                          <div class="place">可售 {{ book.quantity }} 位</div>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="" class="mainColor">更多日期</a>
+                      </li>
+                    </ul>
+
+                    <a
+                      href="item.tour_detail_url"
+                      class="discountBox priceColor text-right"
+                    >
+                      <h3>
+                        {{ item.tour_days }}
+                        <span class="font-sm">天</span> {{ item.min_price }}
+                        <span class="font-sm">元起</span>
+                      </h3>
+                      <h4 class="text-secondary font-sm">下單現賺349元起</h4>
+                    </a>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <nav aria-label="Page navigation text-center">
+            <ul class="pagination">
+              <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              <li class="page-item" v-for="page of pageTotal">
+                <a
+                  class="page-link"
+                  href="#"
+                  @click.prevent="currentPage = page"
+                  >{{ page }}</a
+                >
+              </li>
+
+              <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <script
+      src="https://kit.fontawesome.com/d42ee40819.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.0/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+      integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+      integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      const app = new Vue({
+        el: "#app",
+        data: {
+          product: [],
+          sortState: "default",
+          pageTotal: 0,
+          currentPage: 1,
+        },
+        methods: {
+          getList() {
+            const vm = this;
+            const url =
+              "http://interview.tripresso.com/tour/search?page=3&row_per_page=15&sort=price_asc";
+            const cors = "https://cors-anywhere.herokuapp.com/";
+
+            axios.get(`${cors}${url}`).then((response) => {
+              vm.product = response.data.data.tour_list;
+              //接到資料同時給一個分頁預設值
+              vm.currentPage = 1;
+            });
+          },
+        },
+        computed: {
+          filterPage() {
+            //把分頁跟排序寫入同一個filter   先抓取出每一頁要render的資料，之後再把資料依照排序條件列出
+            const vm = this;
+            const listLength = vm.product.length;
+            // 單頁資料筆數
+            const perpage = 5;
+            // page 按鈕總數量公式 總資料數量 / 每一頁要顯示的資料
+            // 這邊要注意，因為有可能會出現餘數，所以要無條件進位。
+            vm.pageTotal = Math.ceil(listLength / perpage);
+
+            if (vm.currentPage > vm.pageTotal) {
+              // 防止當前頁數比總頁數大
+              vm.currentPage = vm.pageTotal;
+            }
+
+            //每一頁的資料最大最小順序
+            let minData = vm.currentPage * perpage - perpage + 1;
+            let maxData = vm.currentPage * perpage;
+
+            let perdata = [];
+
+            vm.product.forEach((item, index) => {
+              //因為index從0開始 要讓他跟page一樣
+              const num = index + 1;
+
+              //遍瀝所有資料只要索引符合當前頁數的條件就push進去
+              if (num >= minData && num <= maxData) {
+                perdata.push(item);
+              }
+            });
+            //設立新的空物件，來放入分頁邏輯算好的資料做排序
+            let obj = {};
+            //依照點擊排序box時改變實體data內的狀態來決定如何排序
+            if (vm.sortState == "default") {
+              obj = perdata.sort(function (a, b) {
+                return a.rating < b.rating ? 1 : -1;
+              });
+            } else if (vm.sortState == "toBig") {
+              obj = perdata.sort(function (a, b) {
+                return a.min_price > b.min_price ? 1 : -1;
+              });
+            } else if (vm.sortState == "toSmall") {
+              obj = perdata.sort(function (a, b) {
+                return a.min_price < b.min_price ? 1 : -1;
+              });
+            }
+            return obj;
+          },
+        },
+        created() {
+          this.getList();
+        },
+      });
+    </script>
+  </body>
+</html>
